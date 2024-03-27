@@ -47,10 +47,10 @@ jobs:
       - name: Docker - Build and Push
         uses: docker/build-push-action@v5
         with:
-          push: docker.io/kuzbekov/aws-ses-pop3-serve
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           tags: |
-            ${{ github.repository }}:latest
-            ${{ github.repository }}:v${{ env.VERSION }}
+            kuzbekov/aws-ses-pop3-serve:latest
+            kuzbekov/aws-ses-pop3-serve:v${{ env.VERSION }}
           cache-from: type=registry,ref=${{ github.repository }}:buildcache
           cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
       - name: Release
