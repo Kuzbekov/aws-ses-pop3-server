@@ -47,7 +47,7 @@ jobs:
       - name: Docker - Build and Push
         uses: docker/build-push-action@v5
         with:
-          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          push: docker.io/kuzbekov/aws-ses-pop3-serve
           tags: |
             ${{ github.repository }}:latest
             ${{ github.repository }}:v${{ env.VERSION }}
