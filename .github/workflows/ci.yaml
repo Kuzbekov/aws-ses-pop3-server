@@ -49,8 +49,8 @@ jobs:
         with:
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           tags: |
-            kuzbekov/aws-ses-pop3-serve:latest
-            kuzbekov/aws-ses-pop3-serve:v${{ env.VERSION }}
+            docker.io/kuzbekov/aws-ses-pop3-serve:latest
+            docker.io/kuzbekov/aws-ses-pop3-serve:v${{ env.VERSION }}
           cache-from: type=registry,ref=${{ github.repository }}:buildcache
           cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
       - name: Release
