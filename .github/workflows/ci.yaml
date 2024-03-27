@@ -51,8 +51,8 @@ jobs:
           tags: |
             docker.io/kuzbekov/aws-ses-pop3-serve:latest
             docker.io/kuzbekov/aws-ses-pop3-serve:v${{ env.VERSION }}
-          cache-from: type=registry,ref=${{ github.repository }}:buildcache
-          cache-to: type=registry,ref=${{ github.repository }}:buildcache,mode=max
+          cache-from: type=registry,ref=docker.io/kuzbekov/aws-ses-pop3-serve:buildcache
+          cache-to: type=registry,ref=docker.io/kuzbekov/aws-ses-pop3-serve:buildcache,mode=max
       - name: Release
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}" gh release create "v${VERSION}" --generate-notes ./aws-ses-pop3-server-x86_64-Linux ./aws-ses-pop3-server-x86_64-Darwin ./aws-ses-pop3-server-arm64-Darwin
