@@ -47,8 +47,7 @@ func TestE2E(t *testing.T) {
 		{
 			name: "static credentials",
 			config: map[string]string{
-				"user":     "user",
-				"password": "password",
+				"users": "{\"user\":\"password\"}",
 			},
 			run: func(t *testing.T, connection net.Conn) {
 				read(t, connection, "+OK")
