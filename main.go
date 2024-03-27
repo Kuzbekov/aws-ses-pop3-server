@@ -81,17 +81,10 @@ func initProviderCreator(v *viper.Viper) provider.ProviderCreator {
 		)
 	}
 
-	if !v.IsSet("user") {
-		log.Print("Warning: No user specified. \"user\" will be used")
-	}
-	v.SetDefault("user", "user")
-	if !v.IsSet("password") {
-		log.Print("Warning: No password specified. \"changeit\" will be used. DO NOT USE IN PRODUCTION!")
-	}
-	v.SetDefault("password", "changeit")
+	v.SetDefault("users", map[string]string{"user": "changeit"})
+
 	staticCreds := provider.StaticCredentials{
-		User:     v.GetString("user"),
-		Password: v.GetString("password"),
+		Users: v.GetStringMapString("users"),
 	}
 	if v.IsSet("aws-access-key-id") && v.IsSet("aws-secret-access-key") {
 		v.SetDefault("aws-s3-prefix", "")

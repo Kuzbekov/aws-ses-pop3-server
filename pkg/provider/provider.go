@@ -52,18 +52,22 @@ type JWTClaims struct {
 }
 
 type StaticCredentials struct {
-	User     string
-	Password string
+	Users    map[string]string
 	S3Bucket *S3Bucket
 }
 
 func NewStaticCredentialsProviderCreator(staticCreds StaticCredentials) ProviderCreator {
 	return func(user, password string) (Provider, error) {
-		if user == staticCreds.User && password == staticCreds.Password {
-			if staticCreds.S3Bucket != nil {
-				return newS3Provider(*staticCreds.S3Bucket)
+		for cred_user, cred_password := range staticCreds.Users {
+			if user == cred_user && password == cred_password {
+				if staticCreds.S3Bucket != nil {
+					if idx := strings.IndexByte(user, '@'); idx >= 0 {
+						staticCreds.S3Bucket.Prefix = user[:idx]
+					}
+					return newS3Provider(*staticCreds.S3Bucket)
+				}
+				return newNoneProvider()
 			}
-			return newNoneProvider()
 		}
 		return nil, errors.New("credentials do not match user/password")
 	}
